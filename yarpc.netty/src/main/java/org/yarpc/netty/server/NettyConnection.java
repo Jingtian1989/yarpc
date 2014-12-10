@@ -36,7 +36,7 @@ public class NettyConnection implements Connection {
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
                 if (!future.isSuccess()) {
-                    LOGGER.error("[REMOTE] write to " + future.getChannel().getRemoteAddress() + " failed");
+                    LOGGER.error("[YARPC] write to " + future.getChannel().getRemoteAddress() + " failed");
                 }
             }
         });

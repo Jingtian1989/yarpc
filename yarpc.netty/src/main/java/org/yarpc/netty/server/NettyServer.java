@@ -31,8 +31,8 @@ public class NettyServer extends BaseServer {
         super(host, port);
         firewall = new NettyServerFirewall();
         handler = new NettyServerHandler(processor);
-        java.util.concurrent.ThreadFactory master = new ThreadPoolManager.NamedThreadFactory("[REMOTE-SERVER-MASTER]");
-        java.util.concurrent.ThreadFactory worker = new ThreadPoolManager.NamedThreadFactory("[REMOTE-SERVER-WORKER]");
+        java.util.concurrent.ThreadFactory master = new ThreadPoolManager.NamedThreadFactory("[YARPC-SERVER-MASTER]");
+        java.util.concurrent.ThreadFactory worker = new ThreadPoolManager.NamedThreadFactory("[YARPC-SERVER-WORKER]");
         bootstrap = new ServerBootstrap(new NioServerSocketChannelFactory(Executors.newCachedThreadPool(master),
                 Executors.newCachedThreadPool(worker)));
         bootstrap.setOption("child.tcpNoDelay", true);

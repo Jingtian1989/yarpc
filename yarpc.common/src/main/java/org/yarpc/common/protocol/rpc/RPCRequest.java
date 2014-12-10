@@ -1,7 +1,6 @@
 package org.yarpc.common.protocol.rpc;
 
 import org.yarpc.common.buffer.ByteBufferWrapper;
-import org.jingtian.remote.protocol.*;
 import org.yarpc.common.protocol.*;
 import org.yarpc.common.server.ServerHandler;
 

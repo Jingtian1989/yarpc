@@ -13,6 +13,4 @@
         <module>yarpc.common</module>
         <module>yarpc.test</module>
     </modules>
-
-
 </project>

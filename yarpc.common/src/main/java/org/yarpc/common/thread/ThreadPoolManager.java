@@ -26,17 +26,17 @@ public class ThreadPoolManager {
 
     public void allocThreadPool(final String name, int corePoolSize, int maxmumPoolSize) {
         if (poolCache.containsKey(name)) {
-            throw new RuntimeException("[REMOTE] duplicated thread pool allocation for process:" + name);
+            throw new RuntimeException("[YARPC] duplicated thread pool allocation for process:" + name);
         }
 
         if (defaultPoolExecutor == null || defaultPoolExecutor.isShutdown()) {
-            throw new RuntimeException("[REMOTE] can not allocate thread pool for process:" + name);
+            throw new RuntimeException("[YARPC] can not allocate thread pool for process:" + name);
         }
 
         int balance = defaultPoolExecutor.getMaximumPoolSize();
         //剩余线程数量小于申请的线程数量
         if (balance < maxmumPoolSize) {
-            throw new RuntimeException(MessageFormat.format("[REMOTE] thread pool allocated failed for process {0}: balance {1} require {2}.",
+            throw new RuntimeException(MessageFormat.format("[YARPC] thread pool allocated failed for process {0}: balance {1} require {2}.",
                     name, balance, maxmumPoolSize));
         }
 
@@ -47,7 +47,7 @@ public class ThreadPoolManager {
             poolCache.put(name, executor);
 
         } catch (Exception e) {
-            throw new RuntimeException("[REMOTE] thread pool allocated failed.", e);
+            throw new RuntimeException("[YARPC] thread pool allocated failed.", e);
         }
         int newBalance = balance - maxmumPoolSize;
         if (newBalance == 0) {

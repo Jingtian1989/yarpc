@@ -17,7 +17,7 @@ public class NetUtil {
         try {
             host = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
-            LOGGER.error("[REMOTE] get local address failed.", e);
+            LOGGER.error("[YARPC] get local address failed.", e);
         }
         return host;
     }

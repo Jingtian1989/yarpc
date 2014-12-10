@@ -28,7 +28,7 @@ public class ProviderBean {
     public void checkConfig() {
         //代理对象
         if (metadata.getTarget() == null) {
-            throw new IllegalArgumentException("[REMOTE] target should not be null.");
+            throw new IllegalArgumentException("[YARPC] target should not be null.");
         }
         //代理接口
         Class<?> proxyClass = null;
@@ -36,16 +36,16 @@ public class ProviderBean {
             proxyClass = Class.forName(metadata.getIfClass());
             metadata.setProxyClass(proxyClass);
             if (!proxyClass.isInterface()) {
-                throw new IllegalArgumentException("[REMOTE] proxy should be interface.");
+                throw new IllegalArgumentException("[YARPC] proxy should be interface.");
             }
 
             if (!proxyClass.isAssignableFrom(metadata.getTarget().getClass())) {
-                throw new IllegalArgumentException("[REMOTE] target should implement proxy class.");
+                throw new IllegalArgumentException("[YARPC] target should implement proxy class.");
             }
 
 
         } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("[REMOTE] proxy class does not exist.");
+            throw new IllegalArgumentException("[YARPC] proxy class does not exist.");
         }
     }
 

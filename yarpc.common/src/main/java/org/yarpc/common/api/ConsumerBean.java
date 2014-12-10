@@ -49,14 +49,14 @@ public class ConsumerBean {
     public void checkconfig() {
         String proxy = metadata.getIfClass();
         if (proxy == null) {
-            throw new IllegalArgumentException("[REMOTE] proxy should not be null.");
+            throw new IllegalArgumentException("[YARPC] proxy should not be null.");
         }
 
         Class<?> proxyClass = null;
         try {
             proxyClass = Class.forName(proxy);
         } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("[REMOTE] proxy class does not exist.");
+            throw new IllegalArgumentException("[YARPC] proxy class does not exist.");
         }
         metadata.setProxyClass(proxyClass);
     }

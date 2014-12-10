@@ -31,7 +31,7 @@ public enum ProtocolStatus {
                 return status;
             }
         }
-        throw new IllegalArgumentException("[REMOTE] unsupported protocol status code.");
+        throw new IllegalArgumentException("[YARPC] unsupported protocol status code.");
     }
 
 }

@@ -22,11 +22,11 @@ public class RemoteCallBack {
     public BaseResponse get(long timeout, TimeUnit unit) throws RemoteException{
         try {
             if (!latch.await(timeout, unit)) {
-                throw new RemoteException(ExceptionCode.REMOTE_CLIENT_CONN_TIMEOUT, "request timeout.");
+                throw new RemoteException(ExceptionCode.YARPC_CLIENT_CONN_TIMEOUT, "request timeout.");
             }
         } catch (InterruptedException e) {
-            LOGGER.error("[REMOTE] wait response failed. exception:", e);
-            throw new RemoteException(ExceptionCode.REMOTE_CLIENT_CONN_FAILED, "request interrupted.");
+            LOGGER.error("[YARPC] wait response failed. exception:", e);
+            throw new RemoteException(ExceptionCode.YARPC_CLIENT_CONN_FAILED, "request interrupted.");
         }
         return response;
     }

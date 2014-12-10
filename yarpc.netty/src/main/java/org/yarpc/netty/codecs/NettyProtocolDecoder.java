@@ -27,7 +27,7 @@ public class NettyProtocolDecoder extends FrameDecoder {
         int type = buffer.readByte();
         Protocol protocol = ProtocolFactory.getInstance().getProtocol(type);
         if (protocol == null) {
-            LOGGER.error("[REMOTE] unsupported protocol type: " + type);
+            LOGGER.error("[YARPC] unsupported protocol type: " + type);
         }
         ByteBufferWrapper wrapper = new NettyByteBufferWrapper(buffer, channel);
         return protocol.decode(wrapper, index);

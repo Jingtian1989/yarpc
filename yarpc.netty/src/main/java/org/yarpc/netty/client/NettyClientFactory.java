@@ -29,8 +29,8 @@ public class NettyClientFactory extends BaseClientFactory {
 
 
     public NettyClientFactory() {
-        ThreadFactory master = new ThreadPoolManager.NamedThreadFactory("[REMOTE-CLIENT-MASTER]");
-        ThreadFactory worker = new ThreadPoolManager.NamedThreadFactory("[REMOTE-CLIENT-WORKER]");
+        ThreadFactory master = new ThreadPoolManager.NamedThreadFactory("[YARPC-CLIENT-MASTER]");
+        ThreadFactory worker = new ThreadPoolManager.NamedThreadFactory("[YARPC-CLIENT-WORKER]");
         bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory(Executors.newCachedThreadPool(master),
                 Executors.newCachedThreadPool(worker)));
         bootstrap.setOption("tcpNoDelay", true);
@@ -52,17 +52,17 @@ public class NettyClientFactory extends BaseClientFactory {
         ChannelFuture future = bootstrap.connect(address);
         future.awaitUninterruptibly(timeout);
         if (!future.isDone()) {
-            LOGGER.error("[REMOTE] connect " + address + " timeout.");
-            throw new RemoteException(ExceptionCode.REMOTE_CLIENT_CONN_TIMEOUT, "connect remote timeout.", future.getCause());
+            LOGGER.error("[YARPC] connect " + address + " timeout.");
+            throw new RemoteException(ExceptionCode.YARPC_CLIENT_CONN_TIMEOUT, "connect remote timeout.", future.getCause());
         }
         if (!future.isSuccess()) {
-            LOGGER.error("[REMOTE] connect " + address + " failed.");
-            throw new RemoteException(ExceptionCode.REMOTE_CLIENT_CONN_FAILED, "connect failed.", future.getCause());
+            LOGGER.error("[YARPC] connect " + address + " failed.");
+            throw new RemoteException(ExceptionCode.YARPC_CLIENT_CONN_FAILED, "connect failed.", future.getCause());
         }
 
         if (!future.getChannel().isConnected()) {
-            LOGGER.error("[REMOTE] channel " + address + " not connected.");
-            throw new RemoteException(ExceptionCode.REMOTE_CLIENT_CONN_FAILED, "channel not connected.", future.getCause());
+            LOGGER.error("[YARPC] channel " + address + " not connected.");
+            throw new RemoteException(ExceptionCode.YARPC_CLIENT_CONN_FAILED, "channel not connected.", future.getCause());
         }
         NettyClient client = new NettyClient(future.getChannel());
         return client;

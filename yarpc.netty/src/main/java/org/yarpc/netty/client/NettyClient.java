@@ -31,7 +31,7 @@ public class NettyClient extends BaseClient {
                     return;
                 } else {
                     channel.close();
-                    LOGGER.error("[REMOTE] send to " + channel.getRemoteAddress() + " failed.", future.getCause());
+                    LOGGER.error("[YARPC] send to " + channel.getRemoteAddress() + " failed.", future.getCause());
                     BaseResponse response = request.createErrorResponse(ProtocolStatus.ERROR, "send failed.");
                     complete(response);
                 }

@@ -57,16 +57,16 @@ public class ProviderService {
         final ProviderSignature signature = providers.get(request.getTarget());
         final RemoteResponse response = new RemoteResponse();
         if (signature == null) {
-            response.setError("[REMOTE] can not find the required provider: " + request.getTarget());
-            LOGGER.error("[REMOTE] can not find the required provider: " + request.getTarget());
+            response.setError("[YARPC] can not find the required provider: " + request.getTarget());
+            LOGGER.error("[YARPC] can not find the required provider: " + request.getTarget());
             return response;
         }
         final ProviderBean provider = signature.getProvider();
         final Metadata metadata = provider.getMetadata();
         final Method method = signature.getMethod(request.getMethod(), request.getArgTypes());
         if (method == null) {
-            response.setError("[REMOTE] can not find the required method:" + request.getMethod() + "@" + request.getTarget());
-            LOGGER.error("[REMOTE] can not find the required method:" + request.getMethod() + "@" + request.getTarget());
+            response.setError("[YARPC] can not find the required method:" + request.getMethod() + "@" + request.getTarget());
+            LOGGER.error("[YARPC] can not find the required method:" + request.getMethod() + "@" + request.getTarget());
             return response;
         }
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
@@ -78,10 +78,10 @@ public class ProviderService {
             traceCause(e.getTargetException());
             response.setData(e.getTargetException());
         } catch (Throwable t) {
-            String log = "[REMOTE] invoke process method encounter unknown exception. process:" + provider
+            String log = "[YARPC] invoke process method encounter unknown exception. process:" + provider
                     + ", request:" + request;
             response.setError(log);
-            LOGGER.error("[REMOTE] invoke process method encounter unknown exception. process:" + provider
+            LOGGER.error("[YARPC] invoke process method encounter unknown exception. process:" + provider
                     + ", request:" + request + ", client:" + connection.getRemoteAddress());
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
@@ -98,7 +98,7 @@ public class ProviderService {
             try {
                 t.setStackTrace(root.getStackTrace());
             }catch (Exception e) {
-                LOGGER.error("[REMOTE] trace application exception failed.", e);
+                LOGGER.error("[YARPC] trace application exception failed.", e);
             }
         }
     }

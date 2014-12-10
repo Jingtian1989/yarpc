@@ -29,7 +29,7 @@ public class RPCClientHandler implements ClientHandler<RPCRequest> {
             try {
                 argBytes[i] = Codecs.getEncoder(metadata.getCodecType()).encode(request.getArgs()[i]);
             } catch (Exception e) {
-                throw new RemoteException(ExceptionCode.REMOTE_CODECS_ENCODE_FAILED, "[REMOTE] encode args failed.", e);
+                throw new RemoteException(ExceptionCode.YARPC_CODECS_ENCODE_FAILED, "[YARPC] encode args failed.", e);
             }
         }
         RPCRequest rpcRequest = new RPCRequest(UUIDGenerator.get(), metadata.getTimeout(),
@@ -46,12 +46,12 @@ public class RPCClientHandler implements ClientHandler<RPCRequest> {
                     Object data = Codecs.getDecoder(response.getCodecType()).decode(response.getResponse());
                     remoteResponse.setData(data);
                 } catch (Exception e) {
-                    throw new RemoteException(ExceptionCode.REMOTE_CODECS_DECODE_FAILED, "[REMOTE] decode return value failed.", e);
+                    throw new RemoteException(ExceptionCode.YARPC_CODECS_DECODE_FAILED, "[YARPC] decode return value failed.", e);
                 }
                 break;
             case ERROR:
             default:
-                throw new RemoteException(ExceptionCode.REMOTE_SERVER_INVOKE_FAILED, new String(response.getResponse(), ProtocolSetting.DEFAULT_CHARSET));
+                throw new RemoteException(ExceptionCode.YARPC_SERVER_INVOKE_FAILED, new String(response.getResponse(), ProtocolSetting.DEFAULT_CHARSET));
         }
         return remoteResponse;
     }
