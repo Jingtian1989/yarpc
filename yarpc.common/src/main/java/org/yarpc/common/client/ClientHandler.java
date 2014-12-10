@@ -9,7 +9,7 @@ import org.yarpc.common.protocol.BaseRequest;
 /**
  * Created by jingtian.zjt on 2014/12/7.
  */
-public interface ClientHandler <T extends BaseRequest>{
+public interface ClientHandler{
 
     public RemoteResponse handleInvoke(Client client, RemoteRequest request, Metadata metadata) throws RemoteException;
 }
