@@ -9,6 +9,6 @@ import java.net.SocketAddress;
  */
 public interface ClientFactory {
 
-    public Client get(SocketAddress address) throws YarpcException;
+    public Client get(SocketAddress address, boolean connect) throws YarpcException;
 
 }

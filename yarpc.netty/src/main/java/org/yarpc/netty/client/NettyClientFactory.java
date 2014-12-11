@@ -41,7 +41,8 @@ public class NettyClientFactory extends BaseClientFactory {
                 ChannelPipeline pipeline = new DefaultChannelPipeline();
                 pipeline.addLast("decoder", new NettyProtocolDecoder());
                 pipeline.addLast("encoder", new NettyProtocolEncoder());
-                pipeline.addLast("handler", new NettyClientHandler(NettyClientFactory.this, new HashedWheelTimer(), ProtocolSetting.DEFAULT_MAX_IDLE, 0, 0));
+                pipeline.addLast("handler", new NettyClientHandler(NettyClientFactory.this,
+                        new HashedWheelTimer(), ProtocolSetting.DEFAULT_MAX_IDLE, 0, 0));
                 return pipeline;
             }
         });

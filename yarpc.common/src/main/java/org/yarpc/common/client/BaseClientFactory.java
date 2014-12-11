@@ -16,8 +16,11 @@ public abstract class BaseClientFactory implements ClientFactory {
 
 
     @Override
-    public Client get(SocketAddress address) throws YarpcException {
+    public Client get(SocketAddress address, boolean connect) throws YarpcException {
         Client client = clients.get(address);
+        if (client == null && !connect) {
+            return null;
+        }
         if (client == null || !client.isConnected()) {
             synchronized (this) {
                 client = clients.get(address);

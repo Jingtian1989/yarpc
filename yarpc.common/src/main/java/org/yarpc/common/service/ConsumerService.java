@@ -35,7 +35,7 @@ public class ConsumerService {
     public RemoteResponse handleRequest(RemoteRequest request, Metadata metadata) throws YarpcException {
         SocketAddress address = router.route(metadata);
         ClientHandler handler = ProtocolFactory.getInstance().getClientHandler(metadata.getProtocol());
-        Client client = clientFactory.get(address);
+        Client client = clientFactory.get(address, true);
         return handler.handleInvoke(client, request, metadata);
     }
 

@@ -27,8 +27,10 @@ public class NettyClientHandler extends IdleStateHandler{
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         if (e.getMessage() instanceof BaseResponse) {
             BaseResponse response = (BaseResponse) e.getMessage();
-            NettyClient client = (NettyClient) factory.get(ctx.getChannel().getRemoteAddress());
-            client.complete(response);
+            NettyClient client = (NettyClient) factory.get(ctx.getChannel().getRemoteAddress(), false);
+            if (client != null) {
+                client.complete(response);
+            }
         } else {
             LOGGER.error("[YARPC] unsupported message type from " + ctx.getChannel().getRemoteAddress());
             throw new Exception("unsupported message type");
