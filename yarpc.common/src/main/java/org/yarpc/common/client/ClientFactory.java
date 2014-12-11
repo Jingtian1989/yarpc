@@ -1,6 +1,6 @@
 package org.yarpc.common.client;
 
-import org.yarpc.common.exception.RemoteException;
+import org.yarpc.common.exception.YarpcException;
 
 import java.net.SocketAddress;
 
@@ -9,6 +9,6 @@ import java.net.SocketAddress;
  */
 public interface ClientFactory {
 
-    public Client get(SocketAddress address) throws RemoteException;
+    public Client get(SocketAddress address) throws YarpcException;
 
 }

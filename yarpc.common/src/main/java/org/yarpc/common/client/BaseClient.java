@@ -1,6 +1,6 @@
 package org.yarpc.common.client;
 
-import org.yarpc.common.exception.RemoteException;
+import org.yarpc.common.exception.YarpcException;
 import org.yarpc.common.protocol.BaseRequest;
 import org.yarpc.common.protocol.BaseResponse;
 
@@ -15,7 +15,7 @@ public abstract class BaseClient implements Client {
     private final ConcurrentHashMap<Long, ClientCallBack> responses = new ConcurrentHashMap<Long, ClientCallBack>();
 
     @Override
-    public BaseResponse syncInvoke(BaseRequest request) throws RemoteException {
+    public BaseResponse syncInvoke(BaseRequest request) throws YarpcException {
         ClientCallBack callBack = new ClientCallBack();
         responses.put(request.getRequestID(), callBack);
         send(request);
@@ -29,5 +29,5 @@ public abstract class BaseClient implements Client {
         }
     }
 
-    public abstract void send(BaseRequest request) throws RemoteException;
+    public abstract void send(BaseRequest request) throws YarpcException;
 }

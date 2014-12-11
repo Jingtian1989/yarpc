@@ -1,6 +1,6 @@
 package org.yarpc.common.client;
 
-import org.yarpc.common.exception.RemoteException;
+import org.yarpc.common.exception.YarpcException;
 import org.yarpc.common.protocol.BaseRequest;
 import org.yarpc.common.protocol.BaseResponse;
 
@@ -9,7 +9,7 @@ import org.yarpc.common.protocol.BaseResponse;
  */
 public interface Client {
 
-    public BaseResponse syncInvoke(BaseRequest request) throws RemoteException;
+    public BaseResponse syncInvoke(BaseRequest request) throws YarpcException;
 
     public boolean isConnected();
 

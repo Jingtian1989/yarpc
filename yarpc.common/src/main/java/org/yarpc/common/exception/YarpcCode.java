@@ -3,7 +3,7 @@ package org.yarpc.common.exception;
 /**
  * Created by jingtian.zjt on 2014/12/8.
  */
-public enum ExceptionCode {
+public enum YarpcCode {
 
     YARPC_CODECS_DECODE_FAILED(0x00, "YARPC_CODECS_DECODE_ERROR"),
     YARPC_CODECS_ENCODE_FAILED(0x01, "YARPC_CODECS_ENCODE_ERROR"),
@@ -13,7 +13,7 @@ public enum ExceptionCode {
 
     private int code;
     private String value;
-    private ExceptionCode(int code, String value) {
+    private YarpcCode(int code, String value) {
         this.code = code;
         this.value = value;
     }

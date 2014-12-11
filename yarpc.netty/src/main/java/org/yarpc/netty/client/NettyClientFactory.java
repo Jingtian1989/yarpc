@@ -2,9 +2,9 @@ package org.yarpc.netty.client;
 
 import org.yarpc.common.client.BaseClientFactory;
 import org.yarpc.common.client.Client;
+import org.yarpc.common.exception.YarpcCode;
+import org.yarpc.common.exception.YarpcException;
 import org.yarpc.netty.codecs.NettyProtocolEncoder;
-import org.yarpc.common.exception.ExceptionCode;
-import org.yarpc.common.exception.RemoteException;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.*;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
@@ -48,21 +48,21 @@ public class NettyClientFactory extends BaseClientFactory {
     }
 
     @Override
-    public Client connect(SocketAddress address, int timeout) throws RemoteException {
+    public Client connect(SocketAddress address, int timeout) throws YarpcException {
         ChannelFuture future = bootstrap.connect(address);
         future.awaitUninterruptibly(timeout);
         if (!future.isDone()) {
             LOGGER.error("[YARPC] connect " + address + " timeout.");
-            throw new RemoteException(ExceptionCode.YARPC_CLIENT_CONN_TIMEOUT, "connect remote timeout.", future.getCause());
+            throw new YarpcException(YarpcCode.YARPC_CLIENT_CONN_TIMEOUT, "connect remote timeout.", future.getCause());
         }
         if (!future.isSuccess()) {
             LOGGER.error("[YARPC] connect " + address + " failed.");
-            throw new RemoteException(ExceptionCode.YARPC_CLIENT_CONN_FAILED, "connect failed.", future.getCause());
+            throw new YarpcException(YarpcCode.YARPC_CLIENT_CONN_FAILED, "connect failed.", future.getCause());
         }
 
         if (!future.getChannel().isConnected()) {
             LOGGER.error("[YARPC] channel " + address + " not connected.");
-            throw new RemoteException(ExceptionCode.YARPC_CLIENT_CONN_FAILED, "channel not connected.", future.getCause());
+            throw new YarpcException(YarpcCode.YARPC_CLIENT_CONN_FAILED, "channel not connected.", future.getCause());
         }
         NettyClient client = new NettyClient(future.getChannel());
         return client;
