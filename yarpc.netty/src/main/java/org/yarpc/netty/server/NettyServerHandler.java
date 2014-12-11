@@ -114,7 +114,7 @@ public class NettyServerHandler extends SimpleChannelUpstreamHandler{
                 }
                 BaseResponse wrapper = serverHandler.handleRequest(processor, request, connection);
                 if (clientTimeout > 0 && System.currentTimeMillis() - begin >= clientTimeout) {
-                    LOGGER.error("[YARPC] refuse to send response for cost too much time to handle the request. pending:"
+                    LOGGER.error("[YARPC] refuse to send response for costing too much time to handle the request. pending:"
                             + pending + ", cost:" + (System.currentTimeMillis() - begin) + ", timeout:"
                             + clientTimeout);
                 }

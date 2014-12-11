@@ -13,7 +13,7 @@ public final class ProtocolFactory {
 
     private static final Protocol[] protocols = new Protocol[256];
     private static final ServerHandler<?>[] serverHandlers = new ServerHandler<?>[256];
-    private static final ClientHandler<?>[] clientHandlers = new ClientHandler<?>[256];
+    private static final ClientHandler[] clientHandlers = new ClientHandler[256];
     private static final ProtocolFactory instance = new ProtocolFactory();
     public static ProtocolFactory getInstance() {
         return instance;
@@ -25,7 +25,7 @@ public final class ProtocolFactory {
         registerProtocol(RPCProtocol.RPC_PROTOCOL, new RPCProtocol(), new RPCServerHandler(), new RPCClientHandler());
     }
 
-    public static void registerProtocol(byte type, Protocol protocol, ServerHandler<?> serverHandler, ClientHandler<?> clientHandler) {
+    public static void registerProtocol(byte type, Protocol protocol, ServerHandler<?> serverHandler, ClientHandler clientHandler) {
         type = (type < 0 ? type += 128 : type);
         if (protocols[type] != null) {
             throw new RuntimeException("protocol handler has been registered.");
@@ -45,7 +45,7 @@ public final class ProtocolFactory {
         return serverHandlers[type];
     }
 
-    public ClientHandler<?> getClientHandler(int type) {
+    public ClientHandler getClientHandler(int type) {
         if (type < 0) {
             type += 128;
         }

@@ -15,7 +15,7 @@ import org.yarpc.common.util.UUIDGenerator;
 /**
  * Created by jingtian.zjt on 2014/12/7.
  */
-public class RPCClientHandler implements ClientHandler<RPCRequest> {
+public class RPCClientHandler implements ClientHandler {
 
     @Override
     public RemoteResponse handleInvoke(Client client, RemoteRequest request, Metadata metadata) throws RemoteException {

@@ -11,12 +11,12 @@ import java.util.concurrent.*;
 /**
  * Created by jingtian.zjt on 2014/12/7.
  */
-public class RemoteCallBack {
+public class ClientCallBack {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RemoteCallBack.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientCallBack.class);
 
     private BaseResponse response;
-    private RemoteFutureListener listener;
+    private ClientFutureListener listener;
     private final CountDownLatch latch = new CountDownLatch(1);
 
     public BaseResponse get(long timeout, TimeUnit unit) throws RemoteException{
@@ -45,7 +45,7 @@ public class RemoteCallBack {
         }
     }
 
-    public void addListener(RemoteFutureListener listener) {
+    public void addListener(ClientFutureListener listener) {
         this.listener = listener;
     }
 

@@ -12,18 +12,18 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class BaseClient implements Client {
 
-    private final ConcurrentHashMap<Long, RemoteCallBack> responses = new ConcurrentHashMap<Long, RemoteCallBack>();
+    private final ConcurrentHashMap<Long, ClientCallBack> responses = new ConcurrentHashMap<Long, ClientCallBack>();
 
     @Override
     public BaseResponse syncInvoke(BaseRequest request) throws RemoteException {
-        RemoteCallBack callBack = new RemoteCallBack();
+        ClientCallBack callBack = new ClientCallBack();
         responses.put(request.getRequestID(), callBack);
         send(request);
         return callBack.get(request.getTimeout(), TimeUnit.MILLISECONDS);
     }
 
     public void complete(BaseResponse response){
-        RemoteCallBack callBack = responses.remove(response.getRequestID());
+        ClientCallBack callBack = responses.remove(response.getRequestID());
         if (callBack != null) {
             callBack.complete(response);
         }
