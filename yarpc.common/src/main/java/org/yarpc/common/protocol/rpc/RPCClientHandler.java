@@ -6,8 +6,8 @@ import org.yarpc.common.codec.Codecs;
 import org.yarpc.common.domain.Metadata;
 import org.yarpc.common.domain.RemoteRequest;
 import org.yarpc.common.domain.RemoteResponse;
-import org.yarpc.common.exception.YarpcCode;
-import org.yarpc.common.exception.YarpcException;
+import org.yarpc.common.exception.RPCCode;
+import org.yarpc.common.exception.RPCException;
 import org.yarpc.common.protocol.ProtocolSetting;
 import org.yarpc.common.util.UUIDGenerator;
 
@@ -18,7 +18,7 @@ import org.yarpc.common.util.UUIDGenerator;
 public class RPCClientHandler implements ClientHandler {
 
     @Override
-    public RemoteResponse handleInvoke(Client client, RemoteRequest request, Metadata metadata) throws YarpcException {
+    public RemoteResponse handleInvoke(Client client, RemoteRequest request, Metadata metadata) throws RPCException {
         byte[] targetBytes = request.getTarget().getBytes(ProtocolSetting.DEFAULT_CHARSET);
         byte[] methodBytes = request.getMethod().getBytes(ProtocolSetting.DEFAULT_CHARSET);
         byte[][] argTypeBytes = new byte[request.getArgs().length][];
@@ -29,7 +29,7 @@ public class RPCClientHandler implements ClientHandler {
             try {
                 argBytes[i] = Codecs.getEncoder(metadata.getCodecType()).encode(request.getArgs()[i]);
             } catch (Exception e) {
-                throw new YarpcException(YarpcCode.YARPC_CODECS_ENCODE_FAILED, "[YARPC] encode args failed.", e);
+                throw new RPCException(RPCCode.RPC_CODECS_ENCODE_FAILED, "[RPC] encode args failed.", e);
             }
         }
         RPCRequest rpcRequest = new RPCRequest(UUIDGenerator.get(), metadata.getTimeout(),
@@ -38,7 +38,7 @@ public class RPCClientHandler implements ClientHandler {
         return buildResponse(rpcResponse);
     }
 
-    public RemoteResponse buildResponse(RPCResponse response) throws YarpcException {
+    public RemoteResponse buildResponse(RPCResponse response) throws RPCException {
         RemoteResponse remoteResponse = new RemoteResponse();
         switch (response.getStatus()) {
             case OK:
@@ -46,12 +46,12 @@ public class RPCClientHandler implements ClientHandler {
                     Object data = Codecs.getDecoder(response.getCodecType()).decode(response.getResponse());
                     remoteResponse.setData(data);
                 } catch (Exception e) {
-                    throw new YarpcException(YarpcCode.YARPC_CODECS_DECODE_FAILED, "[YARPC] decode return value failed.", e);
+                    throw new RPCException(RPCCode.RPC_CODECS_DECODE_FAILED, "[RPC] decode return value failed.", e);
                 }
                 break;
             case ERROR:
             default:
-                throw new YarpcException(YarpcCode.YARPC_SERVER_INVOKE_FAILED, new String(response.getResponse(), ProtocolSetting.DEFAULT_CHARSET));
+                throw new RPCException(RPCCode.RPC_SERVER_INVOKE_FAILED, new String(response.getResponse(), ProtocolSetting.DEFAULT_CHARSET));
         }
         return remoteResponse;
     }

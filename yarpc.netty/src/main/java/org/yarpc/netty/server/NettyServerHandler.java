@@ -37,7 +37,7 @@ public class NettyServerHandler extends SimpleChannelUpstreamHandler{
     public void messageReceived(final ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         Object message = e.getMessage();
         if (!(message instanceof BaseRequest) && !(message instanceof List)) {
-            throw new Exception("[YARPC] unsupported message type from " + ctx.getChannel().getRemoteAddress());
+            throw new Exception("[RPC] unsupported message type from " + ctx.getChannel().getRemoteAddress());
         }
         handleRequest(ctx, message);
     }
@@ -77,7 +77,7 @@ public class NettyServerHandler extends SimpleChannelUpstreamHandler{
             try {
                 serverHandler.getExecutor(processor, request).execute(new Handler(connection, request, serverHandler, processor));
             } catch (Exception e) {
-                LOGGER.error("[YARPC] thread pool is full.");
+                LOGGER.error("[RPC] thread pool is full.");
                 BaseResponse response = request.createErrorResponse(ProtocolStatus.REFUSED, "thread pool is full");
                 connection.write(response);
             }
@@ -109,18 +109,18 @@ public class NettyServerHandler extends SimpleChannelUpstreamHandler{
                 long pending = begin - dispatchTime;
                 int clientTimeout = request.getTimeout();
                 if (clientTimeout > 0 && pending >= clientTimeout) {
-                    LOGGER.error("[YARPC] drop the request for pending too long in queue. pending:" + pending );
+                    LOGGER.error("[RPC] drop the request for pending too long in queue. pending:" + pending );
                     return;
                 }
                 BaseResponse wrapper = serverHandler.handleRequest(processor, request, connection);
                 if (clientTimeout > 0 && System.currentTimeMillis() - begin >= clientTimeout) {
-                    LOGGER.error("[YARPC] refuse to send response for costing too much time to handle the request. pending:"
+                    LOGGER.error("[RPC] refuse to send response for costing too much time to handle the request. pending:"
                             + pending + ", cost:" + (System.currentTimeMillis() - begin) + ", timeout:"
                             + clientTimeout);
                 }
                 connection.write(wrapper);
             } catch (Exception e) {
-                LOGGER.error("[YARPC] unexpected application exception when handle the request. exception:",e);
+                LOGGER.error("[RPC] unexpected application exception when handle the request. exception:",e);
                 BaseResponse response = request.createErrorResponse(ProtocolStatus.ERROR,
                         "unexpected application exception @" + NetUtil.getLocalAddress());
                 connection.write(response);

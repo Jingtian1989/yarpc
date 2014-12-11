@@ -17,7 +17,7 @@ public class ProxyFactory {
             case JDK_PROXY:
                 return createJDKProxy(processor, classLoader, classes, metadata);
             default:
-                throw new RuntimeException("[YARPC] unsupported proxy type:" + type);
+                throw new RuntimeException("[RPC] unsupported proxy type:" + type);
         }
     }
 

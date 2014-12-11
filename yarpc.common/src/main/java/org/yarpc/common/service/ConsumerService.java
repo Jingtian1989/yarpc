@@ -7,7 +7,7 @@ import org.yarpc.common.client.ClientHandler;
 import org.yarpc.common.domain.Metadata;
 import org.yarpc.common.domain.RemoteRequest;
 import org.yarpc.common.domain.RemoteResponse;
-import org.yarpc.common.exception.YarpcException;
+import org.yarpc.common.exception.RPCException;
 import org.yarpc.common.protocol.ProtocolFactory;
 import org.yarpc.common.proxy.ProxyFactory;
 import org.yarpc.common.router.Router;
@@ -32,7 +32,7 @@ public class ConsumerService {
         return ProxyFactory.createProxy(this, classLoader, classes, consumer.getProxyType(), consumer.getMetadata());
     }
 
-    public RemoteResponse handleRequest(RemoteRequest request, Metadata metadata) throws YarpcException {
+    public RemoteResponse handleRequest(RemoteRequest request, Metadata metadata) throws RPCException {
         SocketAddress address = router.route(metadata);
         ClientHandler handler = ProtocolFactory.getInstance().getClientHandler(metadata.getProtocol());
         Client client = clientFactory.get(address, true);

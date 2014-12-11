@@ -1,7 +1,7 @@
 package org.yarpc.common.client;
 
-import org.yarpc.common.exception.YarpcCode;
-import org.yarpc.common.exception.YarpcException;
+import org.yarpc.common.exception.RPCCode;
+import org.yarpc.common.exception.RPCException;
 import org.yarpc.common.protocol.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,14 +19,14 @@ public class ClientCallBack {
     private ClientFutureListener listener;
     private final CountDownLatch latch = new CountDownLatch(1);
 
-    public BaseResponse get(long timeout, TimeUnit unit) throws YarpcException {
+    public BaseResponse get(long timeout, TimeUnit unit) throws RPCException {
         try {
             if (!latch.await(timeout, unit)) {
-                throw new YarpcException(YarpcCode.YARPC_CLIENT_CONN_TIMEOUT, "request timeout.");
+                throw new RPCException(RPCCode.RPC_CLIENT_CONN_TIMEOUT, "request timeout.");
             }
         } catch (InterruptedException e) {
-            LOGGER.error("[YARPC] wait response failed. exception:", e);
-            throw new YarpcException(YarpcCode.YARPC_CLIENT_CONN_FAILED, "request interrupted.");
+            LOGGER.error("[RPC] wait response failed. exception:", e);
+            throw new RPCException(RPCCode.RPC_CLIENT_CONN_FAILED, "request interrupted.");
         }
         return response;
     }

@@ -38,7 +38,7 @@ public class RPCServerHandler implements ServerHandler<RPCRequest> {
                 return new RPCResponse(request.getRequestID(), request.getCodecType(), ProtocolStatus.ERROR, response);
             }
         } catch (Exception e) {
-            LOGGER.error("[YARPC] process exception:", e);
+            LOGGER.error("[RPC] process exception:", e);
             byte[] response = ("please check log on server that unknown exception occured @"
                     + new Date() + " on connection " + connection).getBytes(ProtocolSetting.DEFAULT_CHARSET);
             return new RPCResponse(request.getRequestID(), request.getCodecType(), ProtocolStatus.ERROR, response);
@@ -48,7 +48,7 @@ public class RPCServerHandler implements ServerHandler<RPCRequest> {
             byte[] response = encoder.encode(remoteResponse.getData());
             return new RPCResponse(request.getRequestID(), request.getCodecType(), ProtocolStatus.OK, response);
         } catch (Exception e) {
-            LOGGER.error("[YARPC] codecs exception:", e);
+            LOGGER.error("[RPC] codecs exception:", e);
             byte[] response = ("please check log on server that codecs exception occured @"
                     + new Date() +" on connection " + connection).getBytes(ProtocolSetting.DEFAULT_CHARSET);
             return new RPCResponse(request.getRequestID(), request.getCodecType(), ProtocolStatus.ERROR, response);

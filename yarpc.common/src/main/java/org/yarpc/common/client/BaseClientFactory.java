@@ -1,6 +1,6 @@
 package org.yarpc.common.client;
 
-import org.yarpc.common.exception.YarpcException;
+import org.yarpc.common.exception.RPCException;
 import org.yarpc.common.protocol.ProtocolSetting;
 
 import java.net.SocketAddress;
@@ -16,7 +16,7 @@ public abstract class BaseClientFactory implements ClientFactory {
 
 
     @Override
-    public Client get(SocketAddress address, boolean connect) throws YarpcException {
+    public Client get(SocketAddress address, boolean connect) throws RPCException {
         Client client = clients.get(address);
         if (client == null && !connect) {
             return null;
@@ -40,5 +40,5 @@ public abstract class BaseClientFactory implements ClientFactory {
         }
     }
 
-    public abstract Client connect(SocketAddress address, int timeout) throws YarpcException;
+    public abstract Client connect(SocketAddress address, int timeout) throws RPCException;
 }

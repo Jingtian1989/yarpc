@@ -32,7 +32,7 @@ public class NettyClientHandler extends IdleStateHandler{
                 client.complete(response);
             }
         } else {
-            LOGGER.error("[YARPC] unsupported message type from " + ctx.getChannel().getRemoteAddress());
+            LOGGER.error("[RPC] unsupported message type from " + ctx.getChannel().getRemoteAddress());
             throw new Exception("unsupported message type");
         }
     }
@@ -42,6 +42,6 @@ public class NettyClientHandler extends IdleStateHandler{
         if (e.getCause() instanceof ConnectException) {
             return ;
         }
-        LOGGER.error("[YARPC] catch exception:", e.getCause());
+        LOGGER.error("[RPC] catch exception:", e.getCause());
     }
 }
